@@ -3,3 +3,8 @@ dist/
 .env
 *.log
 coverage/
+
+# agent-payment-splitter artifacts
+journal.jsonl
+*.journal.jsonl
+.aps/

@@ -1,51 +1,24 @@
-#!/usr/bin/env bun
 /**
- * agent-payment-splitter - Handles automatic payment splitting for collaborative agent tasks with escrow and reconciliation
- * Built by Retsumdk
+ * agent-payment-splitter — public surface.
+ *
+ * Library entry: import what you need from the root package. The CLI lives in
+ * ./cli.js and the optional HTTP server in ./server.js.
  */
 
-import { Command } from "commander";
-import { existsSync, readFileSync } from "fs";
-import { join } from "path";
-
-interface Config {
-  apiKey?: string;
-  baseUrl: string;
-  timeout: number;
-  retries: number;
-}
-
-const DEFAULTS: Config = {
-  baseUrl: "https://api.example.com",
-  timeout: 30000,
-  retries: 3,
-};
-
-function loadConfig(): Config {
-  const cfgPath = join(process.cwd(), "config.json");
-  if (existsSync(cfgPath)) {
-    try {
-      return { ...DEFAULTS, ...JSON.parse(readFileSync(cfgPath, "utf-8")) };
-    } catch { /* ignore */ }
-  }
-  return { ...DEFAULTS };
-}
-
-async function main(cfg: Config) {
-  console.log(`[${name}] Connected to ${cfg.baseUrl}`);
-  console.log(`[${name}] Timeout: ${cfg.timeout}ms | Retries: ${cfg.retries}`);
-  // TODO: implement your logic here
-  console.log(`[${name}] Done.`);
-}
-
-const program = new Command();
-program.name("agent-payment-splitter").description("Handles automatic payment splitting for collaborative agent tasks with escrow and reconciliation").version("1.0.0")
-  .option("-c, --config <path>", "Config file path", "config.json")
-  .option("-v, --verbose", "Verbose mode")
-  .action(async (opts) => {
-    const cfg = loadConfig();
-    if (opts.verbose) console.log("Verbose mode on");
-    try { await main(cfg); }
-    catch (e) { console.error(`Error: ${e}`); process.exit(1); }
-  });
-program.parse(process.argv);
+export { PaymentSplitter, validatePolicy, validateSpec } from "./engine.js";
+export { formatUnits, entriesForPolicy, feeUnitsFor, splitByWeights } from "./money.js";
+export { canonicalJson, contentId, recordHash } from "./ids.js";
+export { Journal } from "./store.js";
+export { ApiError, StoreError } from "./types.js";
+export type {
+  ContributorState,
+  Escrow,
+  EscrowSpec,
+  EscrowState,
+  Payout,
+  ReconcileContributor,
+  ReconcileReport,
+  RecordKind,
+  SplitPolicy,
+} from "./types.js";
+export type { SplitEntry } from "./money.js";

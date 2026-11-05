@@ -1,0 +1,18 @@
+1. created esc_01a7be2b375b32c7 for $125.00 from acme-agent
+   policy: weights {scout-1: 2, scout-2: 2, writer: 5, reviewer: 1}, platform fee 5.00%
+2. three of four contributors confirmed -> readyForRelease: false
+3. dispute opened; re-weighting reviewer to 2x
+4. reconciled: 3/4 confirmed, readyForRelease: false
+   reconcile: total=12500 fee=625 distributable=11875
+   reviewer     weight=  2  confirmed=false  pending=2159
+   scout-1      weight=  2  confirmed=true  pending=2159
+   scout-2      weight=  2  confirmed=true  pending=2159
+   writer       weight=  5  confirmed=true  pending=5398
+5. released esc_01a7be2b375b32c7:
+   platform        $6.25  (platform fee)
+   reviewer       $21.59  (share)
+   scout-1        $21.59  (share)
+   scout-2        $21.59  (share)
+   writer         $53.98  (share)
+6. payouts sum to $125.00 across 5 records
+7. journal: demo-journal.jsonl replays on load; verify: {"ok":true,"records":8,"head":"9967dfcfa0421a8c3fdb8c4bba7a1b5e8f0fb647bbf5c2362084fc02beb87450"}
